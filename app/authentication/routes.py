@@ -7,10 +7,11 @@ from flask_login import login_user, logout_user, LoginManager, current_user, log
 
 auth = Blueprint('auth', __name__, template_folder='auth_templates')
 
+
 @auth.route('/signup', methods = ['GET', 'POST'])
 def signup():
     form = UserLoginForm()
-
+    print("test")
     try:
         if request.method == 'POST' and form.validate_on_submit():
             email = form.email.data
@@ -23,7 +24,7 @@ def signup():
             db.session.commit()
 
 
-
+            print("test")
             flash(f'You have successfully created a user account {email}', 'User-created')
             return redirect(url_for('site.home'))
     except:
@@ -47,7 +48,7 @@ def signin():
             logged_user = User.query.filter(User.email == email).first()
             if logged_user and check_password_hash(logged_user.password, password):
                 login_user(logged_user)
-                flash('You were successful in your initiation. Congratulations, and welcome to the Wiskey Collection', 'auth-sucess')
+                flash('You were successful in your initiation. Congratulations, and welcome to the Whiskey Collection', 'auth-sucess')
                 return redirect(url_for('site.profile'))
             else:
                 flash('You have failed in your attempt to access this content.', 'auth-failed')
